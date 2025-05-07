@@ -1,0 +1,171 @@
+﻿@page
+@model TrialApp1.Pages.EnergyAnalyticsModel
+@{
+    ViewData["Title"] = "Energy Usage Analytics";
+}
+
+<!-- External Libraries -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    .kpi-card {
+        border-left: 5px solid #0d6efd;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 0.5rem;
+        text-align: center;
+    }
+
+        .kpi-card h4 {
+            font-size: 1.5rem;
+        }
+
+    .chart-container {
+        position: relative;
+        height: 350px;
+    }
+
+    .tab-pane {
+        padding-top: 1rem;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h2 class="text-center mb-3">🌞 Energy Usage Analytics</h2>
+            <p class="text-center text-muted mb-4">
+                Analyze your renewable energy consumption to optimize efficiency and reduce costs.
+            </p>
+
+            <!-- Filters -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label>Date Range</label>
+                    <input type="date" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>Device/System</label>
+                    <select class="form-select">
+                        <option selected>All Devices</option>
+                        <option>Solar Panels</option>
+                        <option>Batteries</option>
+                        <option>Grid</option>
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button class="btn btn-primary w-100">Apply Filters</button>
+                </div>
+            </div>
+
+            <!-- KPI Cards -->
+            <div class="row text-center mb-4">
+                <div class="col-md-3 mb-3">
+                    <div class="kpi-card">
+                        <h4>@Model.TotalEnergyUsed kWh</h4>
+                        <small>Total Energy Used</small>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="kpi-card">
+                        <h4>@Model.PeakUsageTime</h4>
+                        <small>Peak Usage Time</small>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="kpi-card">
+                        <h4>R @Model.CostEstimate</h4>
+                        <small>Cost Estimate</small>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="kpi-card">
+                        <h4>@Model.CO2Saved kg</h4>
+                        <small>CO₂ Saved</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Tabs -->
+            <ul class="nav nav-tabs" id="analyticsTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="daily-tab" data-bs-toggle="tab" data-bs-target="#daily" type="button" role="tab">Daily</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="weekly-tab" data-bs-toggle="tab" data-bs-target="#weekly" type="button" role="tab">Weekly</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="monthly-tab" data-bs-toggle="tab" data-bs-target="#monthly" type="button" role="tab">Monthly</button>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-3" id="analyticsTabsContent">
+                <div class="tab-pane fade show active" id="daily" role="tabpanel">
+                    <div class="chart-container">
+                        <canvas id="dailyChart" aria-label="Daily Energy Usage Line Chart" role="img"></canvas>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="weekly" role="tabpanel">
+                    <div class="chart-container">
+                        <canvas id="weeklyChart" aria-label="Weekly Energy Usage Bar Chart" role="img"></canvas>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="monthly" role="tabpanel">
+                    <div class="chart-container">
+                        <canvas id="monthlyChart" aria-label="Energy Source Breakdown Pie Chart" role="img"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download Buttons -->
+            <div class="text-end mt-4">
+                <button class="btn btn-outline-secondary">Export CSV</button>
+                <button class="btn btn-outline-secondary">Download PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart Scripts -->
+<script>
+    const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+    new Chart(dailyCtx, {
+        type: 'line',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.DailyLabels)),
+            datasets: [{
+                label: 'kWh Used',
+                data: @Html.Raw(Json.Serialize(Model.DailyValues)),
+                borderColor: '#0d6efd',
+                tension: 0.4
+            }]
+        }
+    });
+
+    const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+    new Chart(weeklyCtx, {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.WeeklyLabels)),
+            datasets: [{
+                label: 'kWh Used',
+                data: @Html.Raw(Json.Serialize(Model.WeeklyValues)),
+                backgroundColor: '#198754'
+            }]
+        }
+    });
+
+    const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+    new Chart(monthlyCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Solar', 'Battery', 'Grid'],
+            datasets: [{
+                label: 'Energy Source Breakdown',
+                data: [@Model.Solar, @Model.Battery, @Model.Grid],
+                backgroundColor: ['#ffc107', '#0dcaf0', '#dc3545']
+            }]
+        }
+    });
+</script>

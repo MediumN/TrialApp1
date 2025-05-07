@@ -1,0 +1,105 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = TrialApp1
+build_property.RootNamespace = TrialApp1
+build_property.ProjectDir = C:\Users\21807332\Source\Repos\TrialApp1\TrialApp1\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\21807332\Source\Repos\TrialApp1\TrialApp1
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/BatteryManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQmF0dGVyeU1hbmFnZW1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/ContactUs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29udGFjdFVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/EnergyAnalytics.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRW5lcmd5QW5hbHl0aWNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9yZ290UGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/Maintenance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFpbnRlbmFuY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/Notifications.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTm90aWZpY2F0aW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/RequestInstallation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVxdWVzdEluc3RhbGxhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVzZXRQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/SubscriptionBilling.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3Vic2NyaXB0aW9uQmlsbGluZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/Technician/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVjaG5pY2lhblxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/Technician/InstallationMaintenance.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVjaG5pY2lhblxJbnN0YWxsYXRpb25NYWludGVuYW5jZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/UserSupportHub.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclN1cHBvcnRIdWIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/21807332/Source/Repos/TrialApp1/TrialApp1/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-qaq7p1vgj4

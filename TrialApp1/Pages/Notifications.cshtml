@@ -1,0 +1,113 @@
+﻿@page
+@model NotificationsModel
+@using System.Text.Json
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">System Notifications</h2>
+
+    <!-- Filters -->
+    <form method="get" class="row g-2 mb-4">
+        <div class="col-md-3">
+            <select class="form-select" asp-for="FilterType">
+                <option value="">All Types</option>
+                <option value="SystemAlert">System Alerts</option>
+                <option value="Maintenance">Maintenance</option>
+                <option value="Performance">Performance</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" asp-for="FilterSeverity">
+                <option value="">All Severities</option>
+                <option value="Info">Info</option>
+                <option value="Warning">Warning</option>
+                <option value="Error">Error</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" asp-for="FilterRead">
+                <option value="">All</option>
+                <option value="Unread">Unread</option>
+                <option value="Read">Read</option>
+            </select>
+        </div>
+        <div class="col-md-3 text-end">
+            <button class="btn btn-primary" type="submit">Apply Filters</button>
+        </div>
+    </form>
+
+    <!-- Action Buttons -->
+    <div class="mb-3 d-flex justify-content-between">
+        <div>
+            <button class="btn btn-outline-secondary me-2" onclick="markAllAsRead()">Mark All as Read</button>
+            <button class="btn btn-outline-danger" onclick="clearAll()">Clear All</button>
+        </div>
+        <input class="form-control w-25" type="text" placeholder="Search..." id="searchBox" onkeyup="filterNotifications()" aria-label="Search Notifications">
+    </div>
+
+    <!-- Notifications -->
+    <div id="notifications-container">
+        @if (Model.Notifications.Any())
+        {
+            foreach (var group in Model.GroupedNotifications)
+            {
+                <h5 class="mt-4">@group.Key</h5>
+                @foreach (var note in group.Value)
+                {
+                    <div class="card mb-3 notification-card border-@note.Severity.ToString().ToLower()" data-title="@note.Title.ToLower()">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="me-2" aria-hidden="true">@note.Icon</span>
+                                <strong>@note.Title</strong>
+                                <small class="text-muted ms-2">(@note.Timestamp.ToString("g"))</small>
+                                <span class="badge ms-2 bg-@note.Severity.ToString().ToLower()">@note.Severity</span>
+                                @if (!note.IsRead)
+                                {
+                                    <span class="badge bg-primary">Unread</span>
+                                }
+                                <p class="mt-2">@note.Summary <a href="#">Read More</a></p>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-outline-success me-1" onclick="markAsRead('@note.Id')">Mark as Read</button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="dismiss('@note.Id')">Dismiss</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+        else
+        {
+            <div class="alert alert-info">No notifications available at this time.</div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function filterNotifications() {
+            const search = document.getElementById("searchBox").value.toLowerCase();
+            document.querySelectorAll('.notification-card').forEach(card => {
+                card.style.display = card.dataset.title.includes(search) ? '' : 'none';
+            });
+        }
+
+        function markAllAsRead() {
+            alert("All notifications marked as read (simulated).");
+        }
+
+        function clearAll() {
+            alert("All notifications cleared (simulated).");
+        }
+
+        function markAsRead(id) {
+            alert(`Notification ${id} marked as read (simulated).`);
+        }
+
+        function dismiss(id) {
+            alert(`Notification ${id} dismissed (simulated).`);
+        }
+    </script>
+}

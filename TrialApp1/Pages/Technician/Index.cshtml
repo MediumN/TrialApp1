@@ -1,0 +1,142 @@
+﻿@page
+@model TrialApp1.Pages.Technician.IndexModel
+@{
+    ViewData["Title"] = "Technician Dashboard";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">👨‍🔧 Technician Home Dashboard</h2>
+
+    <!-- Overview Cards -->
+    <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+        <div class="col">
+            <div class="card text-white bg-primary h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-tasks"></i> Assigned Tasks</h5>
+                    <p class="card-text display-6">@Model.AssignedTasks</p>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-success h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-tools"></i> Pending Installations</h5>
+                    <p class="card-text display-6">@Model.PendingInstallations</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-light" style="width: 60%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-warning h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-calendar-check"></i> Scheduled Maintenance</h5>
+                    <p class="card-text display-6">@Model.ScheduledMaintenance</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-dark" style="width: 50%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-white bg-danger h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-exclamation-triangle"></i> Device Alerts</h5>
+                    <p class="card-text display-6">@Model.DeviceAlerts.Count</p>
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" style="width: 80%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            <i class="fas fa-bell"></i> Notifications & Updates
+        </div>
+        <div class="card-body">
+            @foreach (var note in Model.Notifications)
+            {
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <strong>@note.Title</strong> - @note.Message
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Upcoming Schedule -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <i class="fas fa-calendar-alt"></i> Upcoming Schedule (7 Days)
+        </div>
+        <div class="card-body p-0">
+            <table class="table mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Client</th>
+                        <th>Location</th>
+                        <th>Task Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in Model.UpcomingSchedule)
+                    {
+                        <tr>
+                            <td>@task.Date.ToShortDateString()</td>
+                            <td>@task.Time</td>
+                            <td>@task.ClientName</td>
+                            <td>@task.Location</td>
+                            <td>@task.TaskType</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Device Alerts -->
+    <div class="card mb-4">
+        <div class="card-header bg-danger text-white">
+            <i class="fas fa-exclamation-circle"></i> Device Alerts
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach (var alert in Model.DeviceAlerts)
+                {
+                    <div class="col-md-4 mb-3">
+                        <div class="card border-danger">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-microchip"></i> @alert.DeviceName</h5>
+                                <p><span class="badge bg-danger">@alert.Severity</span> - @alert.AlertType</p>
+                                <p class="text-muted">@alert.Description</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            <i class="fas fa-bolt"></i> Quick Actions
+        </div>
+        <div class="card-body d-flex flex-wrap gap-3">
+            <a href="#" class="btn btn-outline-primary"><i class="fas fa-microchip"></i> Device Interactions</a>
+            <a href="#" class="btn btn-outline-success"><i class="fas fa-wrench"></i> Installations & Maintenance</a>
+            <a href="#" class="btn btn-outline-warning"><i class="fas fa-file-alt"></i> Submit Daily Report</a>
+            <a href="#" class="btn btn-outline-info"><i class="fas fa-cogs"></i> Run Diagnostics</a>
+            <a href="/Logout" class="btn btn-outline-danger"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+        </div>
+    </div>
+</div>
