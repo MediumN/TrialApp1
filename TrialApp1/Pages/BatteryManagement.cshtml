@@ -1,0 +1,357 @@
+﻿@page
+@model TrialApp1.Pages.BatteryManagementModel
+@{
+    ViewData["Title"] = "Battery Management";
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<div class="container-fluid px-4 py-3">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="mb-0">
+                    <i class="bi bi-battery-charging text-success"></i>
+                    Battery Management
+                </h1>
+                <div class="d-flex align-items-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Flag_of_South_Africa.svg/32px-Flag_of_South_Africa.svg.png"
+                         alt="South Africa Flag" class="me-2" height="24">
+                    <span class="badge bg-success">South Africa</span>
+                </div>
+            </div>
+            <p class="text-muted">Monitor and manage your renewable energy storage system</p>
+        </div>
+    </div>
+
+    <!-- Success Message (if available from TempData) -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="row mb-4" data-aos="fade-down" data-aos-duration="800">
+            <div class="col-12">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Critical Alert Section (Conditionally Displayed) -->
+    @if (Model.HasCriticalAlert)
+    {
+        <div class="row mb-4" data-aos="fade-down" data-aos-duration="800">
+            <div class="col-12">
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill fs-4 me-2"></i>
+                    <div>
+                        <strong>Critical Alert:</strong> @Model.AlertMessage
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Main Battery Display & Metrics Section -->
+    <div class="row mb-4">
+        <!-- Battery Status Card -->
+        <div class="col-md-6" data-aos="fade-right" data-aos-duration="1000">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Battery Status</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <h3 class="mb-0">@Model.BatteryBank.Name</h3>
+                        <p class="text-muted">Battery Bank Status</p>
+                    </div>
+
+                    <div class="position-relative mb-4" style="height: 250px;">
+                        <div class="battery-container mx-auto" style="width: 150px; height: 240px;">
+                            <div class="battery-body border border-2 border-dark rounded-3 position-relative h-100">
+                                <div class="battery-terminal bg-dark mx-auto rounded-top"
+                                     style="width: 50px; height: 12px; margin-top: -12px;"></div>
+
+                                <div class="battery-level position-absolute bottom-0 w-100 transition-all bg-success"
+                                     style="height: @(Model.BatteryBank.ChargeLevel)%;
+                                            background: linear-gradient(180deg,
+                                                        @(Model.BatteryStatusColor) @(Model.BatteryBank.ChargeLevel)%,
+                                                        rgba(255,255,255,0.2) @(Model.BatteryBank.ChargeLevel + 5)%);">
+                                </div>
+
+                                <div class="position-absolute top-50 start-50 translate-middle text-center">
+                                    <h1 class="display-4 fw-bold">@Model.BatteryBank.ChargeLevel%</h1>
+                                    @if (Model.BatteryBank.ChargingStatus == "Charging")
+                                    {
+                                        <div class="text-success">
+                                            <i class="bi bi-lightning-charge-fill fs-2 me-2 charging-icon"></i>
+                                            <span class="fs-5">Charging</span>
+                                        </div>
+                                    }
+                                    else if (Model.BatteryBank.ChargingStatus == "Discharging")
+                                    {
+                                        <div class="text-warning">
+                                            <i class="bi bi-lightning fs-2 me-2 discharging-icon"></i>
+                                            <span class="fs-5">Discharging</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="text-secondary">
+                                            <i class="bi bi-pause-circle-fill fs-2 me-2"></i>
+                                            <span class="fs-5">Idle</span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <h5 class="mb-1">Estimated Runtime</h5>
+                        <p class="lead mb-0">@Model.BatteryBank.EstimatedRuntime</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Battery Metrics Card -->
+        <div class="col-md-6" data-aos="fade-left" data-aos-duration="1000">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Battery Metrics</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <!-- Voltage Metric -->
+                        <div class="col-sm-6">
+                            <div class="metric-card p-3 border rounded bg-light">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        title="Current voltage of the battery bank">
+                                        Voltage
+                                    </h6>
+                                    <i class="bi bi-lightning text-primary"></i>
+                                </div>
+                                <h3 class="mt-2 mb-0">@Model.BatteryBank.Voltage V</h3>
+                            </div>
+                        </div>
+
+                        <!-- Current Metric -->
+                        <div class="col-sm-6">
+                            <div class="metric-card p-3 border rounded bg-light">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        title="Current flowing to/from the battery bank">
+                                        Current
+                                    </h6>
+                                    <i class="bi bi-activity text-primary"></i>
+                                </div>
+                                <h3 class="mt-2 mb-0">@Model.BatteryBank.Current A</h3>
+                            </div>
+                        </div>
+
+                        <!-- Temperature Metric -->
+                        <div class="col-sm-6">
+                            <div class="metric-card p-3 border rounded bg-light">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        title="Current temperature of the battery bank">
+                                        Temperature
+                                    </h6>
+                                    <i class="bi bi-thermometer-half text-primary"></i>
+                                </div>
+                                <h3 class="mt-2 mb-0">@Model.BatteryBank.Temperature °C</h3>
+                            </div>
+                        </div>
+
+                        <!-- Health Metric -->
+                        <div class="col-sm-6">
+                            <div class="metric-card p-3 border rounded bg-light">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        title="Overall health status of your battery bank">
+                                        Health
+                                    </h6>
+                                    <i class="bi bi-heart-pulse text-primary"></i>
+                                </div>
+                                <h3 class="mt-2 mb-0 @Model.BatteryHealthTextColor">
+                                    @Model.BatteryBank.BatteryHealth
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Maintenance Progress -->
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="mb-0">Last Maintenance Date</h6>
+                            <span class="badge bg-info">@Model.BatteryBank.LastMaintenanceDate.ToString("MMM dd, yyyy")</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar @Model.MaintenanceProgressBarColor" role="progressbar"
+                                 style="width: @Model.MaintenanceProgressPercentage%;"
+                                 aria-valuenow="@Model.MaintenanceProgressPercentage" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                        <small class="text-muted">
+                            @Model.DaysSinceLastMaintenance days since last maintenance
+                            (@Model.DaysUntilNextMaintenanceMsg)
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls & System Info Section -->
+    <div class="row mb-4" data-aos="fade-up" data-aos-duration="1000">
+        <!-- Battery Management Controls -->
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Battery Management Controls</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="energySavingMode"
+                                           asp-for="BatteryBank.EnergySavingMode">
+                                    <label class="form-check-label" for="energySavingMode">
+                                        <i class="bi bi-leaf-fill text-success me-1"></i>
+                                        Energy Saving Mode
+                                    </label>
+                                    <div class="form-text">Optimize power usage to extend battery life</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <button type="submit" asp-page-handler="RunDiagnostics"
+                                        class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-tools me-2"></i>
+                                    Run Battery Diagnostics
+                                </button>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <button type="submit" asp-page-handler="SaveSettings"
+                                        class="btn btn-success">
+                                    <i class="bi bi-save me-2"></i>
+                                    Save Settings
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Information -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">System Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-info-circle-fill fs-3 text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-0">System Type</h6>
+                            <p class="mb-0">Lithium Ion Battery Bank</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-calendar-event fs-3 text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-0">Installation Date</h6>
+                            <p class="mb-0">@Model.BatteryBank.InstallationDate.ToString("MMM dd, yyyy")</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-calendar2-plus fs-3 text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-0">Warranty Until</h6>
+                            <p class="mb-0">@Model.BatteryBank.WarrantyDate.ToString("MMM dd, yyyy")</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <i class="bi bi-plug fs-3 text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-0">Capacity</h6>
+                            <p class="mb-0">@Model.BatteryBank.Capacity kWh</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Battery styling */
+    .battery-container {
+        position: relative;
+    }
+
+    .battery-level {
+        transition: height 1.5s ease-in-out;
+        border-radius: 0 0 0.25rem 0.25rem;
+    }
+
+    /* Animation for charging icon */
+    .charging-icon {
+        animation: pulse 1.5s infinite ease-in-out;
+    }
+
+
+    /* Animation for discharging icon */
+    .discharging-icon {
+        animation: fade 2s infinite ease-in-out;
+    }
+
+
+    /* General transitions */
+    .transition-all {
+        transition: all 0.5s ease;
+    }
+
+    /* Metric card hover effects */
+    .metric-card {
+        transition: all 0.3s ease;
+    }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Initialize AOS animations
+        AOS.init();
+
+        // Initialize all tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(function(tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>

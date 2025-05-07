@@ -1,0 +1,831 @@
+﻿@{
+    // Shared layout for Renewable Energy Controller application
+    ViewData["Title"] = ViewData["Title"] ?? "Renewable Energy Controller";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Renewable Energy Controller</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- AOS Animation Library -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <!-- Add in your _Layout.cshtml <head> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <!-- Custom styles for header and footer -->
+    <style>
+        :root {
+            --sa-green: #007A4D;      /* South African flag green */
+            --sa-yellow: #FDB913;     /* South African flag yellow */
+            --sa-red: #E03C31;        /* South African flag red */
+            --sa-blue: #0032A0;       /* South African flag blue */
+            --sa-black: #000000;      /* South African flag black */
+        }
+
+        /* Header Styles */
+        .header-wrapper {
+            background: linear-gradient(135deg, var(--sa-green) 0%, #1a8e5f 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: white !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--sa-yellow);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+        }
+
+        .nav-link:hover:after {
+            width: 80%;
+        }
+
+        .nav-link.active {
+            color: white !important;
+            font-weight: 600;
+        }
+
+        .nav-link.active:after {
+            width: 80%;
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Search Bar Animation */
+        .search-box {
+            position: relative;
+            height: 40px;
+        }
+
+        .search-btn {
+            color: white;
+            float: right;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.4s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .search-btn:hover {
+            color: var(--sa-yellow);
+        }
+
+        .search-txt {
+            border: none;
+            background: none;
+            outline: none;
+            float: left;
+            padding: 0;
+            color: white;
+            font-size: 16px;
+            transition: 0.4s;
+            width: 0px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        .search-box.active .search-txt {
+            width: 200px;
+            padding: 0 10px;
+        }
+
+        /* Notification Styles */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            padding: 0.25rem 0.45rem;
+            border-radius: 50%;
+            background-color: var(--sa-red);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            min-width: 320px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .notification-header {
+            background-color: var(--sa-green);
+            color: white;
+            padding: 10px 15px;
+            font-weight: 600;
+        }
+
+        .notification-body {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            transition: all 0.2s ease;
+        }
+
+        .notification-item:hover {
+            background-color: rgba(0, 122, 77, 0.05);
+        }
+
+        .notification-icon {
+            margin-right: 15px;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background-color: rgba(0, 122, 77, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--sa-green);
+        }
+
+        .notification-content h6 {
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+
+        .notification-content p {
+            margin-bottom: 0;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .notification-footer {
+            padding: 10px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+
+        .notification-footer a {
+            color: var(--sa-green);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Footer Styles */
+        .footer-wrapper {
+            background: linear-gradient(135deg, #222 0%, #333 100%);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 2rem 0;
+            position: relative;
+            border-top: 4px solid var(--sa-green);
+        }
+
+        .footer-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg,
+                var(--sa-red) 0%,
+                var(--sa-red) 20%,
+                var(--sa-blue) 20%,
+                var(--sa-blue) 40%,
+                var(--sa-yellow) 40%,
+                var(--sa-yellow) 60%,
+                var(--sa-green) 60%,
+                var(--sa-green) 80%,
+                var(--sa-black) 80%,
+                var(--sa-black) 100%);
+        }
+
+        .footer-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .footer-address {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-social a {
+            color: rgba(255, 255, 255, 0.7);
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: var(--sa-yellow);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            text-align: right;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-left: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--sa-green);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 99;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-top-btn.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top-btn:hover {
+            background-color: #006540;
+            transform: translateY(-3px);
+        }
+
+        /* Chat Bot Styles */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--sa-yellow);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .chat-button i {
+            font-size: 24px;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.05);
+        }
+
+        .chat-popup {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 450px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-popup.active {
+            display: flex;
+        }
+
+        .chat-header {
+            padding: 15px;
+            background: linear-gradient(135deg, var(--sa-green) 0%, #1a8e5f 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-title {
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-title i {
+            margin-right: 10px;
+        }
+
+        .chat-close {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            padding: 0;
+        }
+
+        .chat-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-content {
+            padding: 10px 15px;
+            border-radius: 18px;
+            display: inline-block;
+            max-width: 75%;
+        }
+
+        .bot-message .message-content {
+            background-color: #e9ecef;
+            border-bottom-left-radius: 5px;
+            align-self: flex-start;
+        }
+
+        .user-message {
+            align-items: flex-end;
+        }
+
+        .user-message .message-content {
+            background-color: var(--sa-green);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chat-footer {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 15px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: var(--sa-green);
+        }
+
+        .chat-send {
+            margin-left: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--sa-green);
+            color: white;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-send:hover {
+            background-color: #006540;
+        }
+
+        
+            .footer-links, .footer-social {
+                text-align: left;
+                margin-top: 1rem;
+            }
+
+            .footer-links a {
+                margin-left: 0;
+                margin-right: 1.5rem;
+            }
+
+            .chat-popup {
+                width: 300px;
+                right: -10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header-wrapper sticky-top" data-aos="fade-down" data-aos-duration="800">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" asp-page="/Index">
+                    <i class="bi bi-sun me-2" style="color: var(--sa-yellow);"></i>
+                    Renewable Energy Controller
+                </a>
+                <div class="d-flex align-items-center order-lg-last">
+                    <!-- Search Box -->
+                    <div class="search-box me-3">
+                        <input class="search-txt" type="text" placeholder="Search...">
+                        <a class="search-btn">
+                            <i class="bi bi-search"></i>
+                        </a>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="dropdown me-3">
+                        <a class="nav-link position-relative dropdown-toggle" href="#" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-bell-fill"></i>
+                            <span class="notification-badge">3</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                            <div class="notification-header">
+                                Notifications
+                            </div>
+                            <div class="notification-body">
+                                <div class="notification-item">
+                                    <div class="notification-icon">
+                                        <i class="bi bi-battery-full"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <h6>Battery Fully Charged</h6>
+                                        <p>Your battery system is now at 100%</p>
+                                        <small class="text-muted">10 minutes ago</small>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon">
+                                        <i class="bi bi-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <h6>Load Shedding Alert</h6>
+                                        <p>Stage 2 load shedding scheduled tonight</p>
+                                        <small class="text-muted">1 hour ago</small>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon">
+                                        <i class="bi bi-sun"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <h6>Peak Solar Production</h6>
+                                        <p>Optimal time to use high-power appliances</p>
+                                        <small class="text-muted">2 hours ago</small>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon">
+                                        <i class="bi bi-gear"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <h6>Maintenance Required</h6>
+                                        <p>Inverter needs scheduled inspection</p>
+                                        <small class="text-muted">Yesterday</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notification-footer">
+                                <a asp-page="/Notifications">View All Notifications</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/BatteryManagement">Battery Management</a>
+                        </li>
+                        <li class="nav-item">
+                        <a asp-page="/Alerts" class="nav-link">Alerts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Maintenance">Maintenance</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/EnergyAnalytics">Power Consumption</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/UserSupportHub">Support</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Login">
+                                <i class="bi bi-person-circle me-1"></i> Login
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer-wrapper" data-aos="fade-up" data-aos-duration="800">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="footer-brand">
+                        <i class="bi bi-lightning-charge me-2" style="color: var(--sa-yellow);"></i>
+                        Exit Strategy Group - Renewable Energy Controller
+                    </div>
+                    <div class="footer-address">
+                        <i class="bi bi-geo-alt me-2"></i>
+                        Mangosuthu University of Technology<br>
+                        511 Griffiths Mxenge Hwy, Umlazi<br>
+                        Durban, 4031, South Africa
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" title="Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="footer-links">
+                        <a href="#" title="About Us">About Us</a>
+                        <a href="#" title="Privacy Policy">Privacy Policy</a>
+                        <a href="#" title="Terms of Service">Terms of Service</a>
+                        <a href="#" title="Contact Us">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center copyright">
+                    &copy; @DateTime.Now.Year - Exit Strategy Group - All Rights Reserved
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top-btn" id="scrollTopBtn">
+        <i class="bi bi-arrow-up"></i>
+    </div>
+
+    <!-- Chat Bot Widget -->
+    <div class="chat-widget">
+        <div class="chat-button" id="chatButton">
+            <i class="bi bi-chat-dots-fill"></i>
+        </div>
+        <div class="chat-popup" id="chatPopup">
+            <div class="chat-header">
+                <h5 class="chat-title">
+                    <i class="bi bi-robot"></i> Energy Assistant
+                </h5>
+                <button class="chat-close" id="chatClose">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="chat-body" id="chatBody">
+                <div class="chat-message bot-message">
+                    <div class="message-content">
+                        Hello! I'm your Energy Assistant. How can I help you manage your renewable energy system today?
+                    </div>
+                </div>
+                <div class="chat-message user-message">
+                    <div class="message-content">
+                        What's my current battery level?
+                    </div>
+                </div>
+                <div class="chat-message bot-message">
+                    <div class="message-content">
+                        Your battery is currently at 78% charge. At the current rate of consumption, you have approximately 14 hours of backup power during load shedding.
+                    </div>
+                </div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+                <button class="chat-send" id="chatSend">
+                    <i class="bi bi-send-fill"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AOS Animation Library -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+    <!-- Initialize AOS and custom interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize AOS animations
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+
+            // Search Box functionality
+            const searchBtn = document.querySelector('.search-btn');
+            const searchBox = document.querySelector('.search-box');
+            const searchInput = document.querySelector('.search-txt');
+
+            searchBtn.addEventListener('click', function() {
+                searchBox.classList.toggle('active');
+                searchInput.focus();
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!searchBox.contains(event.target) && searchBox.classList.contains('active')) {
+                    searchBox.classList.remove('active');
+                }
+            });
+
+            // Scroll to top functionality
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollTopBtn.classList.add('active');
+                } else {
+                    scrollTopBtn.classList.remove('active');
+                }
+            });
+
+            scrollTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // Chat Bot functionality
+            const chatButton = document.getElementById('chatButton');
+            const chatPopup = document.getElementById('chatPopup');
+            const chatClose = document.getElementById('chatClose');
+            const chatInput = document.getElementById('chatInput');
+            const chatSend = document.getElementById('chatSend');
+            const chatBody = document.getElementById('chatBody');
+
+            chatButton.addEventListener('click', function() {
+                chatPopup.classList.toggle('active');
+                if (chatPopup.classList.contains('active')) {
+                    chatInput.focus();
+                }
+            });
+
+            chatClose.addEventListener('click', function() {
+                chatPopup.classList.remove('active');
+            });
+
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message !== '') {
+                    // Add user message
+                    addMessage(message, 'user');
+                    chatInput.value = '';
+
+                    // Simulate bot response (in real app, this would be an API call)
+                    setTimeout(function() {
+                        const responses = [
+                            "I'm checking your system for that information.",
+                            "Based on your energy patterns, I recommend using heavy appliances between 10am and 2pm tomorrow.",
+                            "Your solar panels are currently operating at 92% efficiency. Great job keeping them clean!",
+                            "I've sent your maintenance request to our technical team.",
+                            "According to the weather forecast, tomorrow will be ideal for solar generation."
+                        ];
+                        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                        addMessage(randomResponse, 'bot');
+                    }, 1000);
+                }
+            }
+
+            function addMessage(message, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${sender}-message`;
+
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+                messageContent.textContent = message;
+
+                messageDiv.appendChild(messageContent);
+                chatBody.appendChild(messageDiv);
+
+                // Scroll to the bottom
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+
+            chatSend.addEventListener('click', sendMessage);
+
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+
+    <!-- Site JavaScript -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
