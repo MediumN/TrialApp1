@@ -1,0 +1,146 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Create Your Account</h2>
+                    <p class="text-center text-muted">Access and monitor your renewable energy system anytime.</p>
+
+                    <form method="post" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.FullName" class="form-label"></label>
+                            <input asp-for="Input.FullName" class="form-control" />
+                            <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Email" class="form-label"></label>
+                            <input asp-for="Input.Email" class="form-control" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.MobileNumber" class="form-label"></label>
+                            <input asp-for="Input.MobileNumber" class="form-control" />
+                            <span asp-validation-for="Input.MobileNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Username" class="form-label"></label>
+                            <input asp-for="Input.Username" class="form-control" />
+                            <span asp-validation-for="Input.Username" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3 position-relative">
+                            <label asp-for="Input.Password" class="form-label"></label>
+                            <input asp-for="Input.Password" class="form-control" id="passwordInput" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            <div class="form-text" id="passwordHelp"></div>
+                            <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 mt-4 me-2" onclick="togglePassword()">👁️</button>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+                            <input asp-for="Input.ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Role" class="form-label"></label>
+                            <select asp-for="Input.Role" class="form-select">
+                                <option value="">-- Select Role --</option>
+                                <option>Homeowner</option>
+                                <option>Installer</option>
+                                <option>Admin</option>
+                            </select>
+                            <span asp-validation-for="Input.Role" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input asp-for="Input.AgreeToTerms" class="form-check-input" type="checkbox" />
+                            <label class="form-check-label" asp-for="Input.AgreeToTerms">
+                                I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a>
+                            </label>
+                            <span asp-validation-for="Input.AgreeToTerms" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-success">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="successModalLabel">Registration Successful</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Your account has been created. You can now log in to monitor your renewable energy system.
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success" href="/Login">Go to Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Terms Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Your use of the Renewable Energy Controller system is subject to fair use, data privacy, and energy management policies.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("passwordInput");
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        }
+
+        document.getElementById("passwordInput").addEventListener("input", function () {
+            const strengthText = document.getElementById("passwordHelp");
+            const value = this.value;
+            let strength = "Weak";
+            if (value.length >= 8 && /[A-Z]/.test(value) && /[0-9]/.test(value)) {
+                strength = "Strong";
+            } else if (value.length >= 6) {
+                strength = "Moderate";
+            }
+            strengthText.innerText = "Password Strength: " + strength;
+        });
+
+        // Auto-show success modal if registration completed
+        @if (Model.ShowSuccessModal)
+        {
+            <text>
+                    var modal = new bootstrap.Modal(document.getElementById('successModal'));
+                    modal.show();
+            </text>
+        }
+    </script>
+}

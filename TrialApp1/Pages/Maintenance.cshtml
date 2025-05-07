@@ -1,0 +1,503 @@
+﻿@page
+@model TrialApp1.Pages.MaintenanceModel
+@{
+    ViewData["Title"] = "Maintenance History";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>Renewable Energy System Maintenance</h1>
+            <p class="lead">Track and manage your system maintenance to ensure optimal performance.</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#requestMaintenanceModal">
+                <i class="bi bi-tools me-2"></i>Request New Maintenance
+            </button>
+        </div>
+    </div>
+
+    <!-- Cost Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 border-success">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Completed Maintenance</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-text mb-0">R @Model.TotalActualCost.ToString("N2")</h3>
+                    <p class="text-muted">Total actual costs</p>
+                    <div class="progress mt-2">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: @Model.CompletedPercentage%">
+                            @Model.CompletedPercentage%
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <small class="text-muted">@Model.CompletedMaintenanceCount items completed</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="card-title mb-0">Pending Maintenance</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-text mb-0">R @Model.TotalProjectedCost.ToString("N2")</h3>
+                    <p class="text-muted">Total projected costs</p>
+                    <div class="progress mt-2">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: @Model.PendingPercentage%">
+                            @Model.PendingPercentage%
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <small class="text-muted">@Model.PendingMaintenanceCount items pending</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">Overdue Maintenance</h5>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-text mb-0">R @Model.TotalOverdueCost.ToString("N2")</h3>
+                    <p class="text-muted">Overdue maintenance costs</p>
+                    <div class="progress mt-2">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: @Model.OverduePercentage%">
+                            @Model.OverduePercentage%
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <small class="text-muted">@Model.OverdueMaintenanceCount items overdue</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert for overdue maintenance -->
+    @if (Model.HasOverdueItems)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Attention Required!</strong> You have @Model.OverdueMaintenanceCount maintenance @(Model.OverdueMaintenanceCount == 1 ? "item" : "items") overdue. Please schedule service as soon as possible to prevent system degradation.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Alert for high cost estimates -->
+    @if (Model.HasHighCostItems)
+    {
+        <div class="alert alert-warning alert-dismissible fade show mb-4" role="alert">
+            <i class="bi bi-cash-coin me-2"></i>
+            <strong>Budget Notice:</strong> You have pending maintenance with high cost estimates. Review the details below and consider scheduling during off-peak periods for potential savings.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Maintenance Records Table -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h5 class="mb-0">Maintenance History</h5>
+                </div>
+                <div class="col-auto">
+                    <div class="input-group">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search records..." onkeyup="filterTable()">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Filter
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item filter-btn" data-filter="all" href="#">All</a></li>
+                            <li><a class="dropdown-item filter-btn" data-filter="Completed" href="#">Completed</a></li>
+                            <li><a class="dropdown-item filter-btn" data-filter="Pending" href="#">Pending</a></li>
+                            <li><a class="dropdown-item filter-btn" data-filter="Overdue" href="#">Overdue</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="maintenanceTable" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Technician</th>
+                        <th>Status</th>
+                        <th>Projected Cost</th>
+                        <th>Actual Cost</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.MaintenanceItems)
+                    {
+                        <tr class="maintenance-row @item.Status.ToLower()" data-aos="fade-up" data-aos-delay="@(50 * Model.MaintenanceItems.IndexOf(item))">
+                            <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                            <td>@item.Type</td>
+                            <td>
+                                @item.Description
+                                @if (!string.IsNullOrEmpty(item.Notes))
+                                {
+                                    <i class="bi bi-info-circle-fill text-primary ms-2" data-bs-toggle="tooltip" title="@item.Notes"></i>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.Technician))
+                                {
+                                    @item.Technician
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Not assigned</span>
+                                }
+                            </td>
+                            <td>
+                                @switch (item.Status)
+                                {
+                                    case "Completed":
+                                        <span class="badge bg-success">Completed</span>
+                                        break;
+                                    case "Pending":
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                        break;
+                                    case "Overdue":
+                                        <span class="badge bg-danger">Overdue</span>
+                                        break;
+                                    default:
+                                        <span class="badge bg-secondary">@item.Status</span>
+                                        break;
+                                }
+                            </td>
+                            <td>R @item.ProjectedCost.ToString("N2")</td>
+                            <td>
+                                @if (item.Status == "Completed")
+                                {
+                                    <span>R @item.ActualCost.ToString("N2")</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Pending</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary"
+                                            onclick="viewDetails('@item.Id')">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    @if (item.Status != "Completed")
+                                    {
+                                        <button type="button" class="btn btn-sm btn-outline-success"
+                                                onclick="markComplete('@item.Id')">
+                                            <i class="bi bi-check-lg"></i>
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                    @if (!Model.MaintenanceItems.Any())
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center py-4">
+                                <p class="text-muted mb-0">No maintenance records found</p>
+                                <small>Start by requesting a new maintenance service</small>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer text-muted">
+            <small>
+                <i class="bi bi-info-circle me-1"></i>
+                Maintenance costs include labor charges compliant with South African labor laws, including minimum wage regulations and safety standards.
+            </small>
+        </div>
+    </div>
+</div>
+
+<!-- Request Maintenance Modal -->
+<div class="modal fade" id="requestMaintenanceModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="RequestMaintenance">
+                <div class="modal-header">
+                    <h5 class="modal-title">Request New Maintenance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="NewMaintenance.Type" class="form-label">Maintenance Type</label>
+                                <select asp-for="NewMaintenance.Type" class="form-select" required>
+                                    <option value="">Select type...</option>
+                                    <option value="Routine Inspection">Routine Inspection</option>
+                                    <option value="Panel Cleaning">Panel Cleaning</option>
+                                    <option value="Inverter Service">Inverter Service</option>
+                                    <option value="Battery Maintenance">Battery Maintenance</option>
+                                    <option value="Wiring Inspection">Wiring Inspection</option>
+                                    <option value="Emergency Repair">Emergency Repair</option>
+                                </select>
+                                <span asp-validation-for="NewMaintenance.Type" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="NewMaintenance.Date" class="form-label">Preferred Date</label>
+                                <input asp-for="NewMaintenance.Date" type="date" class="form-control" required />
+                                <span asp-validation-for="NewMaintenance.Date" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="NewMaintenance.Description" class="form-label">Description</label>
+                        <textarea asp-for="NewMaintenance.Description" class="form-control" rows="3" required></textarea>
+                        <span asp-validation-for="NewMaintenance.Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="NewMaintenance.Urgency" class="form-label">Urgency</label>
+                                <select asp-for="NewMaintenance.Urgency" class="form-select" required>
+                                    <option value="Low">Low - Schedule within 30 days</option>
+                                    <option value="Medium">Medium - Schedule within 14 days</option>
+                                    <option value="High">High - Schedule within 3 days</option>
+                                    <option value="Emergency">Emergency - Immediate attention</option>
+                                </select>
+                                <span asp-validation-for="NewMaintenance.Urgency" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check mt-4">
+                                <input asp-for="NewMaintenance.IsWarranty" class="form-check-input" type="checkbox" />
+                                <label asp-for="NewMaintenance.IsWarranty" class="form-check-label">
+                                    Covered under warranty/service plan
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="bi bi-calculator fs-3"></i>
+                            </div>
+                            <div>
+                                <h5 class="alert-heading">Cost Projection</h5>
+                                <p class="mb-0">
+                                    The estimated cost will be calculated based on service type, urgency, and
+                                    current South African labor rates. Estimates include VAT and comply with
+                                    South African Trade and Labor regulations.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Maintenance Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="detailsModalBody">
+                <!-- Content will be populated via JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mark Complete Modal -->
+<div class="modal fade" id="completeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="MarkComplete">
+                <div class="modal-header">
+                    <h5 class="modal-title">Mark Maintenance as Complete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="completeItemId" name="id" />
+
+                    <div class="form-group mb-3">
+                        <label for="actualCost" class="form-label">Actual Cost (ZAR)</label>
+                        <div class="input-group">
+                            <span class="input-group-text">R</span>
+                            <input type="number" class="form-control" id="actualCost" name="actualCost" step="0.01" min="0" required />
+                        </div>
+                        <div class="form-text">Enter the final cost including parts, labor, and VAT</div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="technicianName" class="form-label">Technician Name</label>
+                        <input type="text" class="form-control" id="technicianName" name="technicianName" required />
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="completionNotes" class="form-label">Completion Notes</label>
+                        <textarea class="form-control" id="completionNotes" name="completionNotes" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Mark Complete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
+            // Initialize AOS animations
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+        });
+
+        // Filter table function
+        function filterTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('maintenanceTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                let matchFound = false;
+                const cells = rows[i].getElementsByTagName('td');
+
+                for (let j = 0; j < cells.length; j++) {
+                    const cellText = cells[j].textContent || cells[j].innerText;
+                    if (cellText.toUpperCase().indexOf(filter) > -1) {
+                        matchFound = true;
+                        break;
+                    }
+                }
+
+                rows[i].style.display = matchFound ? '' : 'none';
+            }
+        }
+
+        // Filter by status
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const filter = this.getAttribute('data-filter');
+                const rows = document.querySelectorAll('.maintenance-row');
+
+                rows.forEach(row => {
+                    if (filter === 'all') {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = row.classList.contains(filter.toLowerCase()) ? '' : 'none';
+                    }
+                });
+            });
+        });
+
+        // View details function
+        function viewDetails(id) {
+            // In a real application, you would fetch details from server
+            // For now, we'll simulate this with the available data
+            fetch(`/api/maintenance/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    const modalBody = document.getElementById('detailsModalBody');
+
+                    // For demo purposes, we'll create some HTML content
+                    // In production, use the actual data returned from the server
+                    const statusClass = data.status === 'Completed' ? 'success' :
+                                       (data.status === 'Pending' ? 'warning' : 'danger');
+
+                    modalBody.innerHTML = `
+                        <div class="mb-3">
+                            <h6>Maintenance ID</h6>
+                            <p>${data.id}</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6>Date</h6>
+                            <p>${new Date(data.date).toLocaleDateString()}</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6>Type</h6>
+                            <p>${data.type}</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6>Description</h6>
+                            <p>${data.description}</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6>Status</h6>
+                            <p><span class="badge bg-${statusClass}">${data.status}</span></p>
+                        </div>
+                        <div class="mb-3">
+                            <h6>Technician</h6>
+                            <p>${data.technician || 'Not assigned'}</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6>Projected Cost</h6>
+                            <p>R ${data.projectedCost.toFixed(2)}</p>
+                        </div>
+                        <div class="mb-3">
+                            <h6>Actual Cost</h6>
+                            <p>${data.status === 'Completed' ? 'R ' + data.actualCost.toFixed(2) : 'Pending'}</p>
+                        </div>
+                        ${data.notes ? `
+                        <div class="mb-3">
+                            <h6>Notes</h6>
+                            <p>${data.notes}</p>
+                        </div>` : ''}
+                    `;
+
+                    const detailsModal = new bootstrap.Modal(document.getElementById('detailsModal'));
+                    detailsModal.show();
+                })
+                .catch(error => {
+                    console.error('Error fetching maintenance details:', error);
+                    alert('Error loading details. Please try again.');
+                });
+        }
+
+        // Mark complete function
+        function markComplete(id) {
+            document.getElementById('completeItemId').value = id;
+            const completeModal = new bootstrap.Modal(document.getElementById('completeModal'));
+            completeModal.show();
+        }
+    </script>
+}

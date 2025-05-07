@@ -1,0 +1,560 @@
+﻿@page
+@model TrialApp1.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- Welcome Section with Video Background -->
+<section class="position-relative text-white" style="min-height: 85vh;">
+    <div class="position-absolute top-0 start-0 w-100 h-100 overflow-hidden">
+        <video class="position-absolute w-100 h-100" style="object-fit: cover;" autoplay muted loop>
+            <source src="@Model.WelcomeVideoUrl" type="video/mp4">
+        </video>
+        <div class="position-absolute w-100 h-100" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+    </div>
+
+    <div class="container position-relative py-5" style="z-index: 2; min-height: 85vh; display: flex; align-items: center;">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown">@Model.WelcomeHeadline</h1>
+                <p class="lead mb-4 animate__animated animate__fadeInUp animate__delay-1s">@Model.WelcomeSubheadline</p>
+                <div class="d-flex flex-wrap gap-2 animate__animated animate__fadeInUp animate__delay-2s">
+                    <a href="#quote" class="btn btn-warning btn-lg">Get Started</a>
+                    <a href="#projects" class="btn btn-outline-light btn-lg">See Projects</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Login Section -->
+<section class="py-5 bg-light" id="login">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-3 animate__animated animate__fadeIn">@Model.LoginSectionTitle</h2>
+                <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">@Model.LoginSectionDescription</p>
+
+                <div class="card border-0 shadow-lg animate__animated animate__zoomIn animate__delay-1s">
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6 border-end border-md-end-0 mb-4 mb-md-0">
+                                <div class="p-3">
+                                    <div class="text-primary mb-4">
+                                        <i class="bi bi-person-circle" style="font-size: 3rem;"></i>
+                                    </div>
+                                    <h4 class="mb-3">@Model.LoginButtonText</h4>
+                                    <p class="text-muted">Access your existing account to monitor your solar system.</p>
+                                    <a href="/Account/Login" class="btn btn-primary btn-lg w-100 mt-3">@Model.LoginButtonText</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3">
+                                    <div class="text-success mb-4">
+                                        <i class="bi bi-person-plus-fill" style="font-size: 3rem;"></i>
+                                    </div>
+                                    <h4 class="mb-3">@Model.RegisterButtonText</h4>
+                                    <p class="text-muted">New to our platform? Create your account today.</p>
+                                    <a href="/Account/Register" class="btn btn-success btn-lg w-100 mt-3">@Model.RegisterButtonText</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light p-3">
+                        <div class="mt-2 text-center">
+                            <div class="row g-2">
+                                <div class="col-md-4 animate__animated animate__fadeIn animate__delay-2s">
+                                    <p><i class="bi bi-translate me-1"></i> <strong>Zulu:</strong> @Model.ZuluText</p>
+                                </div>
+                                <div class="col-md-4 animate__animated animate__fadeIn animate__delay-2s">
+                                    <p><i class="bi bi-translate me-1"></i> <strong>Xhosa:</strong> @Model.XhosaText</p>
+                                </div>
+                                <div class="col-md-4 animate__animated animate__fadeIn animate__delay-2s">
+                                    <p><i class="bi bi-translate me-1"></i> <strong>Afrikaans:</strong> @Model.AfrikaansText</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Weather Section -->
+<section class="py-5 bg-white" id="weather">
+    <div class="container">
+        <h2 class="text-center mb-4 animate__animated animate__fadeIn">@Model.WeatherTitle</h2>
+        <div class="row">
+            @foreach (var forecast in Model.WeatherForecasts)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm animate__animated animate__fadeInUp">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@forecast.Day</h5>
+                            <div class="my-3">
+                                <i class="bi bi-@forecast.Icon text-@forecast.ColorClass" style="font-size: 2.5rem;"></i>
+                            </div>
+                            <p class="card-text mb-1">@forecast.Temperature°C | @forecast.Description</p>
+                            <div class="d-flex justify-content-between mt-3">
+                                <div class="text-start">
+                                    <small class="d-block text-muted">@Model.SunlightLabel</small>
+                                    <strong>@forecast.SunlightHours hrs</strong>
+                                </div>
+                                <div class="text-end">
+                                    <small class="d-block text-muted">@Model.EnergyLabel</small>
+                                    <strong>@forecast.ExpectedEnergy kWh</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Quote Section -->
+<section class="py-5 bg-success text-white" id="quote">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-3 animate__animated animate__fadeIn">@Model.QuoteSectionTitle</h2>
+                <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">@Model.QuoteSectionDescription</p>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="card border-0 shadow-lg animate__animated animate__fadeInLeft">
+                    <div class="card-body p-4">
+                        <h4 class="card-title mb-4">Get Your Free Solar Quote</h4>
+
+                        <form method="post" asp-page-handler="GetQuote" id="quoteForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="Name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="Name" asp-for="QuoteRequest.Name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="Email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="Email" asp-for="QuoteRequest.Email" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="Phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="Phone" asp-for="QuoteRequest.Phone" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="Province" class="form-label">Province</label>
+                                    <select class="form-select" id="Province" asp-for="QuoteRequest.Province">
+                                        <option value="">Select...</option>
+                                        <option value="Western Cape">Western Cape</option>
+                                        <option value="Eastern Cape">Eastern Cape</option>
+                                        <option value="Northern Cape">Northern Cape</option>
+                                        <option value="Free State">Free State</option>
+                                        <option value="Gauteng">Gauteng</option>
+                                        <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                                        <option value="Limpopo">Limpopo</option>
+                                        <option value="Mpumalanga">Mpumalanga</option>
+                                        <option value="North West">North West</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="InstallationType" class="form-label">Installation Type</label>
+                                    <select class="form-select" id="InstallationType" asp-for="QuoteRequest.InstallationType">
+                                        <option value="Home">Home</option>
+                                        <option value="Business">Business</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="RoofArea" class="form-label">Estimated Roof Area (m²)</label>
+                                    <input type="number" class="form-control" id="RoofArea" asp-for="QuoteRequest.RoofArea">
+                                </div>
+                                <div class="col-12">
+                                    <label for="MonthlyElectricityBill" class="form-label">Monthly Electricity Bill (ZAR)</label>
+                                    <input type="number" class="form-control" id="MonthlyElectricityBill" asp-for="QuoteRequest.MonthlyElectricityBill">
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">Calculate My Savings</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div id="quoteResult" class="card border-0 shadow-lg h-100 @(Model.ShowQuoteResult ? "" : "d-none") animate__animated animate__fadeInRight">
+                    <div class="card-body p-4">
+                        <h4 class="card-title mb-4 text-dark">Your Personalized Solar Quote</h4>
+
+                        @if (Model.ShowQuoteResult && Model.QuoteResult != null)
+                        {
+                            <div class="alert alert-success mb-4">
+                                <i class="bi bi-check-circle-fill me-2"></i> Your quote has been generated successfully!
+                            </div>
+
+                            <div class="mb-4 text-center">
+                                <h5 class="text-primary">Recommended System</h5>
+                                <p class="display-6 text-dark">@Model.QuoteResult.RecommendedSystem</p>
+                            </div>
+
+                            <div class="row g-3 text-dark">
+                                <div class="col-md-6">
+                                    <div class="card bg-light">
+                                        <div class="card-body p-3 text-center">
+                                            <h6 class="card-subtitle mb-2 text-muted">System Size</h6>
+                                            <p class="card-text display-6">@Model.QuoteResult.EstimatedSystemSize kW</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card bg-light">
+                                        <div class="card-body p-3 text-center">
+                                            <h6 class="card-subtitle mb-2 text-muted">Estimated Cost</h6>
+                                            <p class="card-text display-6">R @Model.QuoteResult.EstimatedCost.ToString("N0")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card bg-light">
+                                        <div class="card-body p-3 text-center">
+                                            <h6 class="card-subtitle mb-2 text-muted">Monthly Savings</h6>
+                                            <p class="card-text display-6">R @Model.QuoteResult.EstimatedSavingsMonthly.ToString("N0")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card bg-light">
+                                        <div class="card-body p-3 text-center">
+                                            <h6 class="card-subtitle mb-2 text-muted">Payback Period</h6>
+                                            <p class="card-text display-6">@Model.QuoteResult.EstimatedPaybackPeriod years</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <div class="card bg-light">
+                                        <div class="card-body p-3 text-center">
+                                            <h6 class="card-subtitle mb-2 text-muted">Annual Production</h6>
+                                            <p class="card-text display-6">@Model.QuoteResult.EstimatedAnnualProduction kWh</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 text-center">
+                                <a href="#" class="btn btn-success btn-lg">Schedule Consultation</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section class="py-5 bg-light" id="projects">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="mb-3 animate__animated animate__fadeIn">@Model.ProjectsSectionTitle</h2>
+            <p class="lead text-muted animate__animated animate__fadeIn animate__delay-1s">@Model.ProjectsSectionDescription</p>
+        </div>
+
+        <div id="projectsCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                @for (int i = 0; i < Model.Projects.Count; i++)
+                {
+                    <button type="button" data-bs-target="#projectsCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")" aria-label="Slide @(i+1)"></button>
+                }
+            </div>
+            <div class="carousel-inner">
+                @for (int i = 0; i < Model.Projects.Count; i++)
+                {
+                    var project = Model.Projects[i];
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <div class="card border-0 shadow animate__animated animate__fadeIn">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <img src="@project.ImageUrl" class="img-fluid rounded-start h-100" style="object-fit: cover;" alt="@project.Title">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h5 class="card-title fw-bold mb-0">@project.Title</h5>
+                                            <span class="badge bg-@(project.Type == "Residential" ? "info" : "primary")">@project.Type</span>
+                                        </div>
+                                        <p class="card-text text-muted mb-2">@project.Location</p>
+                                        <p class="card-text">@project.Description</p>
+                                        <div class="mt-3">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>System Size:</span>
+                                                <strong>@project.SystemSize kW</strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Annual Production:</span>
+                                                <strong>@project.AnnualProduction kWh</strong>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <span>CO₂ Offset:</span>
+                                                <strong>@project.Co2Offset tons/year</strong>
+                                            </div>
+                                        </div>
+                                        <a href="/Projects/Details/@project.Id" class="btn btn-outline-primary mt-4">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#projectsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#projectsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Tips Section -->
+<section class="py-5 bg-white" id="tips">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="mb-3 animate__animated animate__fadeIn">@Model.TipsTitle</h2>
+            <p class="lead text-muted animate__animated animate__fadeIn animate__delay-1s">@Model.TipsSubtitle</p>
+        </div>
+        <div class="row g-4">
+            @foreach (var tip in Model.EnergyTips)
+            {
+                <div class="col-md-6 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm animate__animated animate__fadeInUp">
+                        <div class="card-body">
+                            <div class="rounded-circle bg-light p-3 d-inline-flex mb-3">
+                                <i class="bi bi-@tip.Icon text-primary" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <h5 class="card-title">@tip.Title</h5>
+                            <p class="card-text text-muted">@tip.Description</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5 bg-light" id="testimonials">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="mb-3 animate__animated animate__fadeIn">@Model.TestimonialsSectionTitle</h2>
+            <p class="lead text-muted animate__animated animate__fadeIn animate__delay-1s">@Model.TestimonialsSectionDescription</p>
+        </div>
+
+        <!-- Testimonials Slider -->
+        <div class="position-relative">
+            <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @for (int i = 0; i < Model.Testimonials.Count; i++)
+                    {
+                        <div class="carousel-item @(i == 0 ? "active" : "")" data-bs-interval="5000">
+                            <div class="card border-0 shadow-lg testimonial-card animate__animated animate__fadeIn">
+                                <div class="card-body p-4">
+                                    <div class="row">
+                                        <div class="col-lg-4 text-center mb-4 mb-lg-0">
+                                            @if (!string.IsNullOrEmpty(Model.Testimonials[i].PhotoUrl))
+                                            {
+                                                <img src="@Model.Testimonials[i].PhotoUrl" class="rounded-circle mb-3 shadow-sm" width="120" height="120" alt="@Model.Testimonials[i].CustomerName">
+                                            }
+                                            else
+                                            {
+                                                <div class="rounded-circle bg-secondary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 120px; height: 120px;">
+                                                    <span class="display-4">@Model.Testimonials[i].CustomerName.Substring(0, 1)</span>
+                                                </div>
+                                            }
+                                            <h5 class="mb-1">@Model.Testimonials[i].CustomerName</h5>
+                                            <p class="text-muted mb-3">@Model.Testimonials[i].Location</p>
+                                            <div class="mb-3 text-warning">
+                                                @for (int j = 0; j < Model.Testimonials[i].Rating; j++)
+                                                {
+                                                    <i class="bi bi-star-fill"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="h-100 d-flex flex-column justify-content-center">
+                                                <p class="lead mb-0 fst-italic">
+                                                    <i class="bi bi-quote text-primary opacity-50 me-2" style="font-size: 2rem;"></i>
+                                                    @Model.Testimonials[i].Comment
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Custom Navigation -->
+                <div class="testimonial-controls mt-4 text-center">
+                    <button class="btn btn-outline-primary mx-2" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
+                        <i class="bi bi-arrow-left"></i> Previous
+                    </button>
+                    <button class="btn btn-outline-primary mx-2" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
+                        Next <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Testimonial Indicators -->
+                <div class="testimonial-indicators mt-3 text-center">
+                    @for (int i = 0; i < Model.Testimonials.Count; i++)
+                    {
+                        <button type="button" data-bs-target="#testimonialsCarousel" data-bs-slide-to="@i"
+                                class="btn btn-sm mx-1 @(i == 0 ? "btn-primary" : "btn-outline-primary")"
+                                aria-current="@(i == 0 ? "true" : "false")" aria-label="Testimonial @(i+1)">
+                            @(i + 1)
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Subscription Section -->
+<section class="py-5 bg-primary text-white" id="subscribe">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-3 animate__animated animate__fadeIn">@Model.SubscriptionTitle</h2>
+                <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">@Model.SubscriptionDescription</p>
+
+                <div class="card bg-white text-dark animate__animated animate__zoomIn animate__delay-1s">
+                    <div class="card-body p-4">
+                        @if (!string.IsNullOrEmpty(Model.SubscriptionMessage))
+                        {
+                            <div class="alert @(Model.SubscriptionSuccess ? "alert-success" : "alert-danger") mb-4">
+                                @Model.SubscriptionMessage
+                            </div>
+                        }
+
+                        <form method="post" asp-page-handler="Subscribe" id="subscriptionForm" class="row g-3">
+                            <div class="col-md-5">
+                                <input type="text" class="form-control form-control-lg" placeholder="Your Name" asp-for="SubscriptionRequest.Name" required>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="email" class="form-control form-control-lg" placeholder="Your Email" asp-for="SubscriptionRequest.Email" required>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">Subscribe</button>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="acceptTerms" asp-for="SubscriptionRequest.AcceptTerms" required>
+                                    <label class="form-check-label small" for="acceptTerms">
+                                        I agree to receive news and updates about solar energy solutions.
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-success text-white">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-3 animate__animated animate__fadeIn">Ready to Take Control of Your Energy?</h2>
+                <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">Join thousands of South Africans who are reducing their energy bills and contributing to a sustainable future.</p>
+                <div class="d-flex justify-content-center gap-3 animate__animated animate__fadeIn animate__delay-2s">
+                    <a href="#quote" class="btn btn-warning btn-lg">Get Your Quote</a>
+                    <a href="/Contact" class="btn btn-outline-light btn-lg">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Add Animate.css library
+        const animateCSSLink = document.createElement('link');
+        animateCSSLink.rel = 'stylesheet';
+        animateCSSLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+        document.head.appendChild(animateCSSLink);
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Weather section highlighting based on time of day
+            const hour = new Date().getHours();
+            const weatherCards = document.querySelectorAll('#weather .card');
+
+            if (weatherCards.length > 0) {
+                if (hour < 12) {
+                    weatherCards[0].classList.add('border-primary', 'border-3');
+                } else if (hour < 18) {
+                    if (weatherCards.length > 1) {
+                        weatherCards[1].classList.add('border-primary', 'border-3');
+                    }
+                } else {
+                    if (weatherCards.length > 2) {
+                        weatherCards[2].classList.add('border-primary', 'border-3');
+                    }
+                }
+            }
+
+            // Animate elements when they enter the viewport
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.animate__animated:not(.animate__animated--triggered)');
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    if (elementPosition < windowHeight - 100) {
+                        element.classList.add('animate__animated--triggered');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Trigger on initial load
+
+            // Quote form submission handling
+            const quoteForm = document.getElementById('quoteForm');
+            const quoteResult = document.getElementById('quoteResult');
+
+            if (quoteForm) {
+                quoteForm.addEventListener('submit', function(e) {
+                    // Form will be submitted via POST, but we'll show a loading state
+                    if (quoteResult) {
+                        quoteResult.classList.remove('d-none');
+                    }
+                });
+            }
+
+            // Update testimonial indicators when carousel slides
+            const testimonialsCarousel = document.getElementById('testimonialsCarousel');
+            if (testimonialsCarousel) {
+                testimonialsCarousel.addEventListener('slide.bs.carousel', function(e) {
+                    const indicators = document.querySelectorAll('.testimonial-indicators button');
+                    indicators.forEach((indicator, index) => {
+                        if (index === e.to) {
+                            indicator.classList.remove('btn-outline-primary');
+                            indicator.classList.add('btn-primary');
+                        } else {
+                            indicator.classList.remove('btn-primary');
+                            indicator.classList.add('btn-outline-primary');
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+}

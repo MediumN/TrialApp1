@@ -1,0 +1,132 @@
+﻿@page
+@model TrialApp1.Pages.Technician.InstallationMaintenanceModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Installation & Maintenance";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Technician Dashboard - Installation & Maintenance</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <ul class="nav nav-tabs" id="taskTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="install-tab" data-bs-toggle="tab" data-bs-target="#install" type="button" role="tab">🛠 Installation Tasks</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="maint-tab" data-bs-toggle="tab" data-bs-target="#maint" type="button" role="tab">🔧 Maintenance Tasks</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="taskTabsContent">
+        <div class="tab-pane fade show active pt-3" id="install" role="tabpanel">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                @foreach (var task in Model.InstallationTasks)
+                {
+                    <div class="col">
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <h5 class="card-title">@task.ClientName</h5>
+                                <p class="card-text">📍 @task.Address</p>
+                                <p class="card-text">☀️ @task.SystemType</p>
+                                <p class="card-text">📅 @task.ScheduledDate.ToShortDateString()</p>
+                                <span class="badge bg-info">@task.Status</span>
+                                <div class="mt-2">
+                                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#noteModal" onclick="setTaskId('@task.Id', 'install')">Add Notes</button>
+                                    <form method="post" class="d-inline">
+                                        <input type="hidden" name="TaskId" value="@task.Id" />
+                                        <input type="hidden" name="TaskType" value="install" />
+                                        <button class="btn btn-primary btn-sm" onclick="return confirm('Mark task as complete?')">Complete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="tab-pane fade pt-3" id="maint" role="tabpanel">
+            <div class="accordion" id="maintenanceAccordion">
+                @foreach (var task in Model.MaintenanceTasks)
+                {
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading@task.Id">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@task.Id">
+                                🔋 @task.SystemId - 🚨 @task.ReportedIssue <span class="badge bg-warning ms-2">@task.Priority</span>
+                            </button>
+                        </h2>
+                        <div id="collapse@task.Id" class="accordion-collapse collapse" data-bs-parent="#maintenanceAccordion">
+                            <div class="accordion-body">
+                                <p>🧾 Last Service: @task.LastServiceDate.ToShortDateString()</p>
+                                <form method="post">
+                                    <input type="hidden" name="TaskId" value="@task.Id" />
+                                    <input type="hidden" name="TaskType" value="maint" />
+                                    <div class="mb-2">
+                                        <label for="Status@task.Id">Status</label>
+                                        <select class="form-select" name="Status">
+                                            <option>In Progress</option>
+                                            <option>Resolved</option>
+                                            <option>Pending</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label>Log Service Notes</label>
+                                        <textarea name="Notes" class="form-control" required></textarea>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" type="submit">Update</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Notes -->
+    <div class="modal fade" id="noteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Installation Notes</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="modalTaskId" name="TaskId" />
+                        <input type="hidden" id="modalTaskType" name="TaskType" value="install" />
+                        <div class="mb-3">
+                            <label>Notes</label>
+                            <textarea name="Notes" class="form-control" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label>Upload File/Photo</label>
+                            <input type="file" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setTaskId(id, type) {
+        document.getElementById('modalTaskId').value = id;
+        document.getElementById('modalTaskType').value = type;
+    }
+</script>

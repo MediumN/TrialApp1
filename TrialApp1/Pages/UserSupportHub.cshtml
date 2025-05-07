@@ -1,0 +1,550 @@
+﻿@page
+@model TrialApp1.Pages.UserSupportHub.UserSupportHubModel
+@{
+    ViewData["Title"] = "User Support Hub";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<style>
+    .support-card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+
+    .support-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+        background-color: #4caf50;
+        color: white;
+        border-bottom: none;
+    }
+
+    .tab-content {
+        padding: 20px 0;
+    }
+
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label {
+        color: #4caf50;
+    }
+
+    .form-control:focus {
+        border-color: #4caf50;
+        box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+    }
+
+    .btn-primary {
+        background-color: #4caf50;
+        border-color: #4caf50;
+    }
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: #3e8e41;
+        border-color: #3e8e41;
+    }
+
+    .section-icon {
+        font-size: 2.5rem;
+        color: #4caf50;
+        margin-bottom: 15px;
+    }
+
+    .nav-tabs .nav-link {
+        color: #000000;
+        font-weight: 500;
+        opacity: 0.8;
+        transition: all 0.3s ease;
+    }
+
+        .nav-tabs .nav-link:hover {
+            opacity: 1;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #000000;
+            font-weight: 600;
+            opacity: 1;
+            border-color: #4caf50 #dee2e6 #fff;
+        }
+
+        /* Icon styling to ensure visibility */
+        .nav-tabs .nav-link i {
+            color: #333333;
+        }
+
+        .nav-tabs .nav-link.active i {
+            color: #4caf50;
+        }
+
+    /* Ensuring contrast for accessibility */
+    .nav-tabs {
+        background-color: #ffffff;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+        /* Optional: Add a subtle background separation */
+        .nav-tabs .nav-item {
+            background-color: rgba(255, 255, 255, 0.9);
+            margin-bottom: -1px;
+        }
+
+    .accordion-button:not(.collapsed) {
+        background-color: rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+    }
+
+    .accordion-button:focus {
+        border-color: #4caf50;
+        box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+    }
+
+    .toast {
+        background-color: #4caf50;
+        color: white;
+    }
+
+    .toast-header {
+        background-color: rgba(76, 175, 80, 0.85);
+        color: white;
+    }
+
+    .spinner-border {
+        color: #4caf50;
+    }
+
+    .hide-content {
+        display: none;
+    }
+
+    /* Accessibility focus styles */
+    a:focus, button:focus, input:focus, textarea:focus, select:focus {
+        outline: 2px solid #006540;
+        outline-offset: 2px;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row mb-4" data-aos="fade-up" data-aos-duration="1000">
+        <div class="col-12 text-center">
+            <h1 class="mb-3">User Support Hub</h1>
+            <p class="lead text-muted">Get help, share feedback, and contribute suggestions for our renewable energy system.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav nav-tabs nav-fill mb-4" id="supportTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="feedback-tab" data-bs-toggle="tab" data-bs-target="#feedback" 
+                            type="button" role="tab" aria-controls="feedback" aria-selected="true">
+                        <i class="fas fa-comment-alt me-2"></i>Feedback
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="faq-tab" data-bs-toggle="tab" data-bs-target="#faq" 
+                            type="button" role="tab" aria-controls="faq" aria-selected="false">
+                        <i class="fas fa-question-circle me-2"></i>FAQs
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="help-tab" data-bs-toggle="tab" data-bs-target="#help" 
+                            type="button" role="tab" aria-controls="help" aria-selected="false">
+                        <i class="fas fa-headset me-2"></i>Help Center
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="suggestions-tab" data-bs-toggle="tab" data-bs-target="#suggestions" 
+                            type="button" role="tab" aria-controls="suggestions" aria-selected="false">
+                        <i class="fas fa-lightbulb me-2"></i>Suggestions
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="supportTabsContent">
+                <!-- Feedback Tab -->
+                <div class="tab-pane fade show active" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="support-card card border-0" data-aos="zoom-in">
+                                <div class="card-header text-center py-3">
+                                    <div class="section-icon">
+                                        <i class="fas fa-comment-alt" aria-hidden="true"></i>
+                                    </div>
+                                    <h2 class="h4">Share Your Feedback</h2>
+                                    <p class="mb-0">We value your opinion on our renewable energy solutions</p>
+                                </div>
+                                <div class="card-body p-4">
+                                    <form id="feedbackForm" method="post" asp-page-handler="SubmitFeedback">
+                                        <div class="mb-3 form-floating">
+                                            <input type="text" class="form-control" id="feedbackName" asp-for="FeedbackModel.Name" placeholder="Your Name" required>
+                                            <label for="feedbackName">Full Name</label>
+                                            <span asp-validation-for="FeedbackModel.Name" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 form-floating">
+                                            <input type="email" class="form-control" id="feedbackEmail" asp-for="FeedbackModel.Email" placeholder="name@example.com" required>
+                                            <label for="feedbackEmail">Email Address</label>
+                                            <span asp-validation-for="FeedbackModel.Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 form-floating">
+                                            <select class="form-select" id="feedbackType" asp-for="FeedbackModel.FeedbackType" aria-label="Feedback type">
+                                                <option value="" selected disabled>Select a feedback type</option>
+                                                <option value="General">General Feedback</option>
+                                                <option value="Interface">User Interface</option>
+                                                <option value="Performance">System Performance</option>
+                                                <option value="Monitoring">Monitoring Tools</option>
+                                                <option value="Energy">Energy Output</option>
+                                            </select>
+                                            <label for="feedbackType">Feedback Type</label>
+                                            <span asp-validation-for="FeedbackModel.FeedbackType" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 form-floating">
+                                            <textarea class="form-control" id="feedbackMessage" asp-for="FeedbackModel.Message" 
+                                                      placeholder="Your feedback" style="height: 150px" required></textarea>
+                                            <label for="feedbackMessage">Your Feedback</label>
+                                            <span asp-validation-for="FeedbackModel.Message" class="text-danger"></span>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" id="feedbackSubmit" class="btn btn-primary">
+                                                <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true" id="feedbackSpinner"></span>
+                                                Submit Feedback
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Tab -->
+                <div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <div class="support-card card border-0" data-aos="zoom-in">
+                                <div class="card-header text-center py-3">
+                                    <div class="section-icon">
+                                        <i class="fas fa-question-circle" aria-hidden="true"></i>
+                                    </div>
+                                    <h2 class="h4">Frequently Asked Questions</h2>
+                                    <p class="mb-0">Find answers to common questions about our renewable energy system</p>
+                                </div>
+                                <div class="card-body p-4">
+                                    <div class="accordion" id="faqAccordion">
+                                        @foreach (var faq in Model.FAQList)
+                                        {
+                                            <div class="accordion-item">
+                                                <h3 class="accordion-header" id="faqHeading@(faq.Id)">
+                                                    <button class="accordion-button collapsed" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#faqCollapse@(faq.Id)"
+                                                            aria-expanded="false" aria-controls="faqCollapse@(faq.Id)">
+                                                        @faq.Question
+                                                    </button>
+                                                </h3>
+                                                <div id="faqCollapse@(faq.Id)" class="accordion-collapse collapse"
+                                                     aria-labelledby="faqHeading@(faq.Id)" data-bs-parent="#faqAccordion">
+                                                    <div class="accordion-body">
+                                                        @Html.Raw(faq.Answer)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    
+                                    <div class="mt-4 text-center">
+                                        <p>Can't find what you're looking for? Contact our support team through the Help Center tab.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Help Center Tab -->
+                <div class="tab-pane fade" id="help" role="tabpanel" aria-labelledby="help-tab">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="support-card card border-0" data-aos="zoom-in">
+                                <div class="card-header text-center py-3">
+                                    <div class="section-icon">
+                                        <i class="fas fa-headset" aria-hidden="true"></i>
+                                    </div>
+                                    <h2 class="h4">Help & Support</h2>
+                                    <p class="mb-0">Get assistance with your renewable energy system</p>
+                                </div>
+                                <div class="card-body p-4">
+                                    <form id="helpForm" method="post" asp-page-handler="SubmitHelp">
+                                        <div class="mb-3 form-floating">
+                                            <input type="text" class="form-control" id="helpName" asp-for="HelpModel.Name" placeholder="Your Name" required>
+                                            <label for="helpName">Full Name</label>
+                                            <span asp-validation-for="HelpModel.Name" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 form-floating">
+                                            <input type="email" class="form-control" id="helpEmail" asp-for="HelpModel.Email" placeholder="name@example.com" required>
+                                            <label for="helpEmail">Email Address</label>
+                                            <span asp-validation-for="HelpModel.Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 form-floating">
+                                            <input type="text" class="form-control" id="helpSubject" asp-for="HelpModel.Subject" placeholder="Subject" required>
+                                            <label for="helpSubject">Subject</label>
+                                            <span asp-validation-for="HelpModel.Subject" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 form-floating">
+                                            <textarea class="form-control" id="helpDescription" asp-for="HelpModel.Description" 
+                                                      placeholder="Problem description" style="height: 150px" required></textarea>
+                                            <label for="helpDescription">Problem Description</label>
+                                            <span asp-validation-for="HelpModel.Description" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 form-floating">
+                                            <select class="form-select" id="helpPriority" asp-for="HelpModel.Priority" aria-label="Priority level">
+                                                <option value="Low">Low - No hurry</option>
+                                                <option value="Normal" selected>Normal - Standard response time</option>
+                                                <option value="Urgent">Urgent - Critical issue</option>
+                                            </select>
+                                            <label for="helpPriority">Priority</label>
+                                            <span asp-validation-for="HelpModel.Priority" class="text-danger"></span>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" id="helpSubmit" class="btn btn-primary">
+                                                <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true" id="helpSpinner"></span>
+                                                Send Help Request
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4" data-aos="fade-up">
+                                <div class="card support-card border-0">
+                                    <div class="card-body p-3">
+                                        <h3 class="h5"><i class="fas fa-phone-alt me-2 text-success"></i>Need immediate assistance?</h3>
+                                        <p class="mb-0">Call our support line: <strong>(555) 123-4567</strong><br>
+                                        Available Monday-Friday, 8am-6pm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suggestions Tab -->
+                <div class="tab-pane fade" id="suggestions" role="tabpanel" aria-labelledby="suggestions-tab">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="support-card card border-0" data-aos="zoom-in">
+                                <div class="card-header text-center py-3">
+                                    <div class="section-icon">
+                                        <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                                    </div>
+                                    <h2 class="h4">Suggestions Box</h2>
+                                    <p class="mb-0">Share your ideas to improve our renewable energy system</p>
+                                </div>
+                                <div class="card-body p-4">
+                                    <form id="suggestionForm" method="post" asp-page-handler="SubmitSuggestion">
+                                        <div class="mb-3 form-floating">
+                                            <input type="text" class="form-control" id="suggestionTitle" asp-for="SuggestionModel.Title" placeholder="Suggestion Title" required>
+                                            <label for="suggestionTitle">Suggestion Title</label>
+                                            <span asp-validation-for="SuggestionModel.Title" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 form-floating">
+                                            <select class="form-select" id="suggestionCategory" asp-for="SuggestionModel.Category" aria-label="Suggestion category">
+                                                <option value="" selected disabled>Select a category</option>
+                                                <option value="UserInterface">User Interface</option>
+                                                <option value="Functionality">System Functionality</option>
+                                                <option value="Reporting">Reporting & Analytics</option>
+                                                <option value="NewFeature">New Feature</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            <label for="suggestionCategory">Category</label>
+                                            <span asp-validation-for="SuggestionModel.Category" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 form-floating">
+                                            <textarea class="form-control" id="suggestionDetails" asp-for="SuggestionModel.Details" 
+                                                      placeholder="Suggestion details" style="height: 150px" required></textarea>
+                                            <label for="suggestionDetails">Details</label>
+                                            <span asp-validation-for="SuggestionModel.Details" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="suggestionAnonymous" asp-for="SuggestionModel.IsAnonymous">
+                                                <label class="form-check-label" for="suggestionAnonymous">
+                                                    Submit anonymously
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 form-floating" id="suggestionNameField">
+                                            <input type="text" class="form-control" id="suggestionName" asp-for="SuggestionModel.Name" placeholder="Your Name">
+                                            <label for="suggestionName">Your Name (Optional)</label>
+                                            <span asp-validation-for="SuggestionModel.Name" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3 form-floating" id="suggestionEmailField">
+                                            <input type="email" class="form-control" id="suggestionEmail" asp-for="SuggestionModel.Email" placeholder="name@example.com">
+                                            <label for="suggestionEmail">Email Address (Optional)</label>
+                                            <span asp-validation-for="SuggestionModel.Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button type="submit" id="suggestionSubmit" class="btn btn-primary">
+                                                <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true" id="suggestionSpinner"></span>
+                                                Submit Suggestion
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Urgent Help Request Modal -->
+<div class="modal fade" id="urgentHelpModal" tabindex="-1" aria-labelledby="urgentHelpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="urgentHelpModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Urgent Help Request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>You've selected <strong>Urgent</strong> priority for your help request. Please confirm that this is a critical issue that requires immediate attention.</p>
+                <p>Our team will contact you as soon as possible.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="changePriorityBtn">Change Priority</button>
+                <button type="button" class="btn btn-warning" id="confirmUrgentBtn">Confirm Urgent Request</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="supportToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto" id="toastTitle">Notification</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="toastMessage">
+            Your submission has been received.
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
+    <script>
+        // Initialize AOS animation library
+        AOS.init({
+            once: true,
+            duration: 800
+        });
+
+        // Toast notification function
+        function showToast(title, message) {
+            document.getElementById('toastTitle').innerText = title;
+            document.getElementById('toastMessage').innerText = message;
+            const toast = new bootstrap.Toast(document.getElementById('supportToast'));
+            toast.show();
+        }
+
+        // Check for success messages in TempData
+        document.addEventListener('DOMContentLoaded', function () {
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <text>
+                showToast("Success", "@TempData["SuccessMessage"]");
+                </text>
+            }
+            
+            @if (TempData["ActiveTab"] != null)
+            {
+                <text>
+                document.getElementById('@TempData["ActiveTab"]-tab').click();
+                </text>
+            }
+
+            // Anonymous suggestion toggle
+            document.getElementById('suggestionAnonymous').addEventListener('change', function() {
+                const nameField = document.getElementById('suggestionNameField');
+                const emailField = document.getElementById('suggestionEmailField');
+                
+                if (this.checked) {
+                    nameField.classList.add('hide-content');
+                    emailField.classList.add('hide-content');
+                } else {
+                    nameField.classList.remove('hide-content');
+                    emailField.classList.remove('hide-content');
+                }
+            });
+
+            // Form submission animations
+            const forms = ['feedbackForm', 'helpForm', 'suggestionForm'];
+            forms.forEach(formId => {
+                const form = document.getElementById(formId);
+                if (form) {
+                    form.addEventListener('submit', function(e) {
+                        const submitBtn = this.querySelector('button[type="submit"]');
+                        const spinner = this.querySelector('.spinner-border');
+                        
+                        // Show spinner
+                        spinner.classList.remove('d-none');
+                        submitBtn.setAttribute('disabled', 'disabled');
+                        
+                        // For help request with urgent priority
+                        if (formId === 'helpForm' && document.getElementById('helpPriority').value === 'Urgent') {
+                            e.preventDefault();
+                            const urgentModal = new bootstrap.Modal(document.getElementById('urgentHelpModal'));
+                            urgentModal.show();
+                            
+                            // Re-enable button and hide spinner
+                            spinner.classList.add('d-none');
+                            submitBtn.removeAttribute('disabled');
+                            
+                            // Handle confirm urgent button click
+                            document.getElementById('confirmUrgentBtn').addEventListener('click', function() {
+                                urgentModal.hide();
+                                spinner.classList.remove('d-none');
+                                submitBtn.setAttribute('disabled', 'disabled');
+                                form.submit();
+                            });
+                            
+                            // Handle change priority button click
+                            document.getElementById('changePriorityBtn').addEventListener('click', function() {
+                                document.getElementById('helpPriority').value = 'Normal';
+                                urgentModal.hide();
+                            });
+                        }
+                    });
+                }
+            });
+        });
+        
+        // Keep selected tab active after page reload
+        const triggerTabList = [].slice.call(document.querySelectorAll('#supportTabs button'));
+        triggerTabList.forEach(function (triggerEl) {
+            triggerEl.addEventListener('click', function (event) {
+                sessionStorage.setItem('activeTab', event.target.id);
+            });
+        });
+        
+        // Restore active tab
+        const savedTab = sessionStorage.getItem('activeTab');
+        if (savedTab) {
+            const tab = document.getElementById(savedTab);
+            if (tab) {
+                const bsTab = new bootstrap.Tab(tab);
+                bsTab.show();
+            }
+        }
+    </script>
+}

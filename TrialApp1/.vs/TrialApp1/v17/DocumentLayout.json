@@ -1,0 +1,156 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|c:\\users\\21807332\\source\\repos\\trialapp1\\trialapp1\\pages\\technician\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|solutionrelative:pages\\technician\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|c:\\users\\21807332\\source\\repos\\trialapp1\\trialapp1\\pages\\technician\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|solutionrelative:pages\\technician\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|c:\\users\\21807332\\source\\repos\\trialapp1\\trialapp1\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|solutionrelative:pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|c:\\users\\21807332\\source\\repos\\trialapp1\\trialapp1\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|solutionrelative:pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|c:\\users\\21807332\\source\\repos\\trialapp1\\trialapp1\\pages\\technician\\installationmaintenance.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|solutionrelative:pages\\technician\\installationmaintenance.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|c:\\users\\21807332\\source\\repos\\trialapp1\\trialapp1\\pages\\technician\\installationmaintenance.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|solutionrelative:pages\\technician\\installationmaintenance.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|c:\\users\\21807332\\source\\repos\\trialapp1\\trialapp1\\pages\\subscriptionbilling.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|solutionrelative:pages\\subscriptionbilling.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|c:\\users\\21807332\\source\\repos\\trialapp1\\trialapp1\\pages\\subscriptionbilling.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{88FDCF2B-76C9-445A-A30B-748F6A3695A5}|TrialApp1.csproj|solutionrelative:pages\\subscriptionbilling.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\Technician\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Technician\\Index.cshtml.cs",
+              "ToolTip": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\Technician\\Index.cshtml.cs",
+              "RelativeToolTip": "Pages\\Technician\\Index.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-07T12:17:49.117Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\21807332\\Source\\Repos\\TrialApp1\\TrialApp1\\Pages\\Technician\\Index.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Technician\\Index.cshtml",
+              "ToolTip": "C:\\Users\\21807332\\Source\\Repos\\TrialApp1\\TrialApp1\\Pages\\Technician\\Index.cshtml",
+              "RelativeToolTip": "Pages\\Technician\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-07T12:17:25.723Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Index.cshtml.cs",
+              "ToolTip": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\Index.cshtml.cs",
+              "RelativeToolTip": "Pages\\Index.cshtml.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAgwCMAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-07T12:08:13.719Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Index.cshtml",
+              "ToolTip": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\Index.cshtml",
+              "RelativeToolTip": "Pages\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-07T12:07:29.28Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "InstallationMaintenance.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\Technician\\InstallationMaintenance.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Technician\\InstallationMaintenance.cshtml.cs",
+              "ToolTip": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\Technician\\InstallationMaintenance.cshtml.cs",
+              "RelativeToolTip": "Pages\\Technician\\InstallationMaintenance.cshtml.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAIwGMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-07T11:52:42.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "InstallationMaintenance.cshtml",
+              "DocumentMoniker": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\Technician\\InstallationMaintenance.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Technician\\InstallationMaintenance.cshtml",
+              "ToolTip": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\Technician\\InstallationMaintenance.cshtml",
+              "RelativeToolTip": "Pages\\Technician\\InstallationMaintenance.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-07T11:50:17.152Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SubscriptionBilling.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\SubscriptionBilling.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\SubscriptionBilling.cshtml.cs",
+              "ToolTip": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\SubscriptionBilling.cshtml.cs",
+              "RelativeToolTip": "Pages\\SubscriptionBilling.cshtml.cs",
+              "ViewState": "AgIAAJoBAAAAAAAAAAAiwK4BAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-07T11:06:31.36Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SubscriptionBilling.cshtml",
+              "DocumentMoniker": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\SubscriptionBilling.cshtml",
+              "RelativeDocumentMoniker": "Pages\\SubscriptionBilling.cshtml",
+              "ToolTip": "C:\\Users\\21807332\\source\\repos\\TrialApp1\\TrialApp1\\Pages\\SubscriptionBilling.cshtml",
+              "RelativeToolTip": "Pages\\SubscriptionBilling.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-07T10:59:59.074Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

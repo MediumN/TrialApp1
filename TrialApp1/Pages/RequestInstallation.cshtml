@@ -1,0 +1,139 @@
+﻿@page
+@model RequestInstallationModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Request Installation";
+}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Main Form Column -->
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-lg rounded-4 p-4">
+                <h2 class="mb-4 text-center">🔧 Request Installation</h2>
+                <form method="post" novalidate onsubmit="return confirm('Are you sure you want to submit this installation request?');">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <!-- Personal Information -->
+                    <h5>👤 Personal Information</h5>
+                    <div class="mb-3 form-floating">
+                        <input asp-for="Form.FullName" class="form-control" placeholder="Full Name" />
+                        <label asp-for="Form.FullName">Full Name</label>
+                        <span asp-validation-for="Form.FullName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input asp-for="Form.Email" class="form-control" placeholder="Email" />
+                        <label asp-for="Form.Email">Email</label>
+                        <span asp-validation-for="Form.Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input asp-for="Form.PhoneNumber" class="form-control" placeholder="Phone Number" />
+                        <label asp-for="Form.PhoneNumber">Phone Number</label>
+                        <span asp-validation-for="Form.PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <!-- Installation Address -->
+                    <h5>🏠 Installation Address</h5>
+                    <div class="mb-3 form-floating">
+                        <input asp-for="Form.StreetAddress" class="form-control" placeholder="Street Address" />
+                        <label asp-for="Form.StreetAddress">Street Address</label>
+                        <span asp-validation-for="Form.StreetAddress" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input asp-for="Form.Suburb" class="form-control" placeholder="Suburb" />
+                        <label asp-for="Form.Suburb">Suburb</label>
+                        <span asp-validation-for="Form.Suburb" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input asp-for="Form.City" class="form-control" placeholder="City" />
+                        <label asp-for="Form.City">City</label>
+                        <span asp-validation-for="Form.City" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input asp-for="Form.Province" class="form-control" placeholder="Province" />
+                        <label asp-for="Form.Province">Province</label>
+                        <span asp-validation-for="Form.Province" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input asp-for="Form.PostalCode" class="form-control" placeholder="Postal Code" />
+                        <label asp-for="Form.PostalCode">Postal Code</label>
+                        <span asp-validation-for="Form.PostalCode" class="text-danger"></span>
+                    </div>
+
+                    <!-- System Preferences -->
+                    <h5>⚙️ System Preferences</h5>
+                    <div class="mb-3">
+                        <label class="form-label">System Type</label>
+                        <select asp-for="Form.SystemType" class="form-select">
+                            <option value="">Select one...</option>
+                            @foreach (var option in Model.SystemTypes)
+                            {
+                                <option value="@option">@option</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Form.SystemType" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Preferred Installation Date</label>
+                        <input asp-for="Form.PreferredDate" type="date" class="form-control" />
+                        <span asp-validation-for="Form.PreferredDate" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <textarea asp-for="Form.AdditionalNotes" class="form-control" placeholder="Additional Comments" style="height: 100px;"></textarea>
+                        <label asp-for="Form.AdditionalNotes">Additional Comments</label>
+                    </div>
+
+                    <!-- Service Agreement -->
+                    <div class="mb-4 form-check">
+                        <input asp-for="Form.AgreeToTerms" class="form-check-input" />
+                        <label asp-for="Form.AgreeToTerms" class="form-check-label">
+                            I agree to the terms and conditions.
+                        </label>
+                        <span asp-validation-for="Form.AgreeToTerms" class="text-danger"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary w-100 py-2">
+                        Submit Installation Request
+                    </button>
+                </form>
+
+                @if (Model.SubmissionSuccess != null)
+                {
+                    <div class="alert mt-3 @(Model.SubmissionSuccess.Value ? "alert-success" : "alert-danger")">
+                        @(Model.SubmissionSuccess.Value ? "Your request has been submitted successfully!" : "Submission failed. Please try again.")
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Sidebar Summary Column -->
+        <div class="col-lg-4">
+            <div class="card border-info shadow-sm rounded-4 p-3">
+                <h5 class="text-info mb-3">📋 Summary</h5>
+                <dl class="row small">
+                    <dt class="col-6">System Type</dt>
+                    <dd class="col-6">@Model.Form.SystemType</dd>
+
+                    <dt class="col-6">Preferred Date</dt>
+                    <dd class="col-6">@Model.Form.PreferredDate.ToShortDateString()</dd>
+
+                    <dt class="col-6">City</dt>
+                    <dd class="col-6">@Model.Form.City</dd>
+
+                    <dt class="col-6">Province</dt>
+                    <dd class="col-6">@Model.Form.Province</dd>
+
+                    <dt class="col-6">Postal Code</dt>
+                    <dd class="col-6">@Model.Form.PostalCode</dd>
+                </dl>
+                <hr />
+                <p class="text-muted small">Review your selections before submitting.</p>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
