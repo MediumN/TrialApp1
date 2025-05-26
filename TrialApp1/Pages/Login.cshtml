@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model TrialApp1.Pages.LoginModel
 @{
     ViewData["Title"] = "Login";
@@ -62,29 +62,26 @@
         });
     </script>
     <style>
-        
-        {
-            opacity: 0;
-            transform: translateY(-20px);
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        }
-
-        
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .animate-fade-in {
@@ -113,17 +110,17 @@
             transition: color 0.3s;
         }
 
-            a:hover {
-                color: #0d6efd;
-                text-decoration: underline;
-            }
+        a:hover {
+            color: #0d6efd;
+            text-decoration: underline;
+        }
 
         .btn-lg {
             transition: transform 0.2s;
         }
 
-            .btn-lg:hover {
-                transform: scale(1.03);
-            }
+        .btn-lg:hover {
+            transform: scale(1.03);
+        }
     </style>
 }
